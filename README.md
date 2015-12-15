@@ -1,6 +1,9 @@
 This is an all new version of Cloudlaunch currently being developed as per
 [issue #49](https://github.com/galaxyproject/cloudlaunch/issues/49). Stay tuned.
 
+This version is using MongoDB so before installing this app, it is necessary
+to have a running instance of Mongo with a database.
+
 ## Install
 
 Cloudlaunch is based on Python 3.5 and although it may work on older Python
@@ -13,5 +16,5 @@ Use of virtualenv is also highly advised.
     $ cd cloudlaunch
     $ pip install -r requirements.txt
     $ cd django-cloudlaunch
-    $ python manage.py migrate
+    ## $ python manage.py migrate
     $ python manage.py runserver
