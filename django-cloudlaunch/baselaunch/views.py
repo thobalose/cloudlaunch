@@ -1,11 +1,16 @@
-# from django.contrib.auth.models import User, Group
+# from django.contrib.auth.models import User
+# from django.contrib.auth.models import Group
 # from rest_framework import viewsets
+# from bson import ObjectId
 from datetime import datetime
 
 from django.http import JsonResponse
+from mongoengine.django.shortcuts import get_document_or_404
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_mongoengine import viewsets
+# from rest_framework_mongoengine import viewsets
+from rest_framework import viewsets
 
 from baselaunch import models
 from baselaunch import serializers
@@ -29,14 +34,23 @@ class ApplicationViewSet(viewsets.ModelViewSet):
     queryset = models.Application.objects.all()
     serializer_class = serializers.ApplicationSerializer
 
+    def retrieve(self, request, pk=None):
+        app = get_document_or_404(models.Application, id=pk)
+        serializer = serializers.ApplicationSerializer(app)
+        return Response(serializer.data)
 
-# class CategoryViewSet(viewsets.ModelViewSet):
-#     """
-#     API endpoint that allows applications to be viewed or edited.
-#     """
-#     queryset = models.Category.objects.all()
-#     serializer_class = serializers.CategorySerializer
 
+class CategoryViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows applications to be viewed or edited.
+    """
+    queryset = models.Category.objects.all()
+    serializer_class = serializers.CategorySerializer
+
+    def retrieve(self, request, pk=None):
+        category = get_document_or_404(models.Category, id=pk)
+        serializer = serializers.CategorySerializer(category)
+        return Response(serializer.data)
 
 # class AWSEC2ViewSet(viewsets.ModelViewSet):
 #     """

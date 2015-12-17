@@ -22,8 +22,9 @@ from django.conf.urls import url
 from rest_framework_mongoengine import routers
 from baselaunch import views
 
-router = routers.SimpleRouter()
+router = routers.DefaultRouter()
 router.register(r'applications', views.ApplicationViewSet)
+router.register(r'categories', views.CategoryViewSet)
 
 urlpatterns = [
     url(r'^api/v1/', include(router.urls)),

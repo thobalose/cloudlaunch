@@ -1,8 +1,15 @@
-from bson import ObjectId
+# import datetime
+# from bson import ObjectId
 from django.template.defaultfilters import slugify
+# from mongoengine import DateTimeField
 from mongoengine import Document
-# from mongoengine import ReferenceField
+# from mongoengine import EmbeddedDocument
+# from mongoengine import EmbeddedDocumentField
+from mongoengine import ListField
+from mongoengine import ReferenceField
 from mongoengine import StringField
+from mongoengine import URLField
+# from mongoengine.django.auth import User
 
 
 class Image(Document):
@@ -13,21 +20,27 @@ class Image(Document):
 
 
 class Category(Document):
-    name = StringField(max_length=50)
+    name = StringField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Application(Document):
-    app_id = StringField()
-    name = StringField(max_length=60, required=True)
+    name = StringField(max_length=60, required=True, unique_with='version')
     slug = StringField(max_length=70)
     version = StringField(max_length=30)
     description = StringField()
-    info_url = StringField()
-    # categories = ReferenceField(Category)
+    info_url = URLField()
+    # categories = ListField(EmbeddedDocumentField(Category))
+    categories = ListField(ReferenceField('Category'))
     # image = ReferenceField(Image)
+    # user = ReferenceField(User)
 
     def save(self, *args, **kwargs):
-        if self.app_id is None:
-            self.app_id = str(ObjectId())
-        self.slug = slugify(self.name)
+        if not self.slug:
+            self.slug = slugify(self.name)
         return super(Application, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return "{0} ({1})".format(self.name, self.version)

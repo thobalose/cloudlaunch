@@ -1,8 +1,10 @@
-# from django.contrib.auth.models import User, Group
+# from django.contrib.auth.models import User
+# from django.contrib.auth.models import Group
 # from rest_framework import serializers
 
 from baselaunch import models
 from rest_framework_mongoengine.serializers import DocumentSerializer
+# from rest_framework_mongoengine.serializers import EmbeddedDocumentSerializer
 
 
 class ApplicationSerializer(DocumentSerializer):
@@ -10,14 +12,9 @@ class ApplicationSerializer(DocumentSerializer):
         model = models.Application
 
 
-# class ApplicationSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = models.Application
-
-
-# class CategorySerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = models.Category
+class CategorySerializer(DocumentSerializer):
+    class Meta:
+        model = models.Category
 
 
 # class InfrastructureSerializer(serializers.HyperlinkedModelSerializer):
@@ -44,7 +41,7 @@ class ApplicationSerializer(DocumentSerializer):
 #         fields = ('url', 'name')
 
 
-# class UserSerializer(serializers.HyperlinkedModelSerializer):
+# class UserSerializer(DocumentSerializer):
 #     class Meta:
 #         model = User
-#         fields = ('url', 'username', 'email', 'groups')
+#         # fields = ('url', 'username', 'email', 'groups')
