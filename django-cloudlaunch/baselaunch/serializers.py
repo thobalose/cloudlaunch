@@ -17,6 +17,7 @@ class ApplicationSerializer(DocumentSerializer):
 
     class Meta:
         model = models.Application
+        read_only_fields = ('slug',)
 
 
 # class InfrastructureSerializer(serializers.HyperlinkedModelSerializer):
