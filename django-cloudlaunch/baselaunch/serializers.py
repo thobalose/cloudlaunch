@@ -7,14 +7,16 @@ from rest_framework_mongoengine.serializers import DocumentSerializer
 # from rest_framework_mongoengine.serializers import EmbeddedDocumentSerializer
 
 
-class ApplicationSerializer(DocumentSerializer):
-    class Meta:
-        model = models.Application
-
-
 class CategorySerializer(DocumentSerializer):
     class Meta:
         model = models.Category
+
+
+class ApplicationSerializer(DocumentSerializer):
+    categories = CategorySerializer(many=True)
+
+    class Meta:
+        model = models.Application
 
 
 # class InfrastructureSerializer(serializers.HyperlinkedModelSerializer):
