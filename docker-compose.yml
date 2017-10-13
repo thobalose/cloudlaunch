@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:9.4
+    restart: always
+    environment:
+        POSTGRES_DB: cloudlaunch
+        POSTGRES_USER: cloudlaunch
+        POSTGRES_PASSWORD: DBPWDCHANGEMEONINSTALL
+    ports:
+      - "5432:5432"
+
+  cloudlaunch:
+    build: .
+    command: ["./wait-for-db.sh", "db", "python", "manage.py" ,"runserver" , "0.0.0.0:8000"]
+#    volumes:
+#      - .:/code
+    environment:
+        POSTGRES: db
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+#    stdin_open: true
+#    tty: true
+#  cloudlaunch-ui:
+#    restart: always
+#      build: ./docker-cloudlaunch-ui/
+#      ports:
+#       - "4200:4200"
